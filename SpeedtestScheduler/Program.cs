@@ -9,7 +9,7 @@ namespace SpeedtestScheduler
     {
       {
         Console.WriteLine("Starting Speedtest-scheduler...");
-        SendCommand("localhost:50000");
+        SendCommand("");
         Console.WriteLine("Speedtest-scheduler done");
       }
     }
@@ -18,11 +18,9 @@ namespace SpeedtestScheduler
     {
       try
       {
-        Console.WriteLine("Sending start-logging event to KubeMQ");
-        KubeMqActions kubeMqActions = new KubeMqActions(mqAddress);
+        var config = new Configuration();
+        KubeMqService kubeMqActions = new KubeMqService(config);
         kubeMqActions.SendStartLoggingEvent();
-        Console.WriteLine("start-logging sent to KubeMQ");
-
       }
       catch (System.Exception ex)
       {

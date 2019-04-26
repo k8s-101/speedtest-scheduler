@@ -4,18 +4,25 @@ using KubeMQ.SDK.csharp.Events.LowLevel;
 
 namespace SpeedtestScheduler
 {
-  public class KubeMqActions
+  public class KubeMqService
   {
     private Sender sender;
-    public KubeMqActions(string serverAddress)
+    private Configuration config;
+    public KubeMqService(Configuration config)
     {
-      sender = new Sender(serverAddress);
+      this.config = config;
+      sender = new Sender(config.kubeMQAddress);
     }
 
     public void SendStartLoggingEvent()
     {
+      Console.WriteLine($"Sending start-logging event to KubeMQ at {config.kubeMQAddress}");
+
       var @event = CreateNewEvent();
       sender.SendEvent(@event);
+
+      Console.WriteLine("Event sendt!");
+
     }
 
     protected Event CreateNewEvent()
@@ -25,8 +32,8 @@ namespace SpeedtestScheduler
         Metadata = "StartToLogg",
         Body = Converter.ToByteArray($"Event Created on time {DateTime.UtcNow}"),
         Store = false,
-        Channel = "Speedtest",
-        ClientID = "speedtest-scheduler",
+        Channel = this.config.Channel,
+        ClientID = this.config.ClientID,
         ReturnResult = false
       };
       return @event;
