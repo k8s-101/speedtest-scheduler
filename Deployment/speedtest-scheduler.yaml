@@ -19,5 +19,5 @@ spec:
               - name: clinetID
                 value: speedtest-scheduler
               - name: kubeMQAddress
-                value: adressen
+                value: "kubemq-cluster:50000"
           restartPolicy: OnFailure
