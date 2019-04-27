@@ -1,12 +1,17 @@
+FROM microsoft/dotnet:2.1-sdk AS build-stage
+WORKDIR /SpeedtestScheduler
 
-FROM microsoft/dotnet:2.1
-WORKDIR /src
-COPY SpeedtestScheduler/SpeedtestScheduler.csproj SpeedtestScheduler/
-RUN dotnet restore SpeedtestScheduler/SpeedtestScheduler.csproj
+COPY /SpeedtestScheduler/SpeedtestScheduler.csproj ./
+RUN dotnet restore
 
-COPY . .
+COPY /SpeedtestScheduler ./
+RUN dotnet publish \
+    --output /PublishedApp \
+    --configuration Release
 
-WORKDIR /src/SpeedtestScheduler
-RUN dotnet build SpeedtestScheduler.csproj -c Release -o /app
+FROM microsoft/dotnet:2.1-aspnetcore-runtime
+LABEL repository="github.com/k8s-101/speedtest-scheduler"
+WORKDIR /SpeedtestScheduler
 
-ENTRYPOINT ["dotnet", "/app/SpeedtestScheduler.dll"]
+COPY --from=build-stage /PublishedApp .
+ENTRYPOINT ["dotnet", "SpeedtestScheduler.dll"]
