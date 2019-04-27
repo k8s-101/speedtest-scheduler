@@ -1,2 +1,3 @@
-bin\
-obj\
+# Ignore build output files
+**/bin
+**/obj
