@@ -9,4 +9,8 @@
     <PackageReference Include="KubeMQ.SDK.csharp" Version="1.0.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="appsettings.json" CopyToPublishDirectory="Always" />
+  </ItemGroup>
+
 </Project>
