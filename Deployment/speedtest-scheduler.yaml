@@ -1,0 +1,26 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: speedtest-scheduler-cronjob
+spec:
+  schedule: "0 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: speedtest-scheduler
+        spec:
+          imagePullSecrets:
+            - name: regcred
+          containers:
+          - name: speedtest-scheduler-cronjob
+            image: k8s101registry.azurecr.io/speedtest-scheduler:latest
+            env:
+              - name: channel
+                value: speedtest
+              - name: clinetID
+                value: speedtest-scheduler
+              - name: kubeMQAddress
+                value: "kubemq-cluster:50000"
+          restartPolicy: Never
