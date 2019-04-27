@@ -3,16 +3,19 @@ kind: CronJob
 metadata:
   name: speedtest-scheduler-cronjob
 spec:
-  schedule: "* * * * *"
+  schedule: "0 * * * *"
   jobTemplate:
     spec:
       template:
+        metadata:
+          labels:
+            app: speedtest-scheduler
         spec:
           imagePullSecrets:
-            - name: silver-spade-key
+            - name: regcred
           containers:
           - name: speedtest-scheduler-cronjob
-            image: das-regestry:latest
+            image: k8s101registry.azurecr.io/speedtest-scheduler:latest
             env:
               - name: channel
                 value: speedtest
@@ -20,4 +23,4 @@ spec:
                 value: speedtest-scheduler
               - name: kubeMQAddress
                 value: "kubemq-cluster:50000"
-          restartPolicy: OnFailure
+          restartPolicy: Never

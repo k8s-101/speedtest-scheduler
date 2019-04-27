@@ -9,12 +9,12 @@ namespace SpeedtestScheduler
     {
       {
         Console.WriteLine("Starting Speedtest-scheduler...");
-        SendCommand("");
+        SendCommand();
         Console.WriteLine("Speedtest-scheduler done");
       }
     }
 
-    static void SendCommand(string mqAddress)
+    static void SendCommand()
     {
       try
       {
@@ -24,7 +24,7 @@ namespace SpeedtestScheduler
       }
       catch (System.Exception ex)
       {
-        Console.WriteLine("Error: Unable to send command", ex);
+        Console.WriteLine($"Error: Unable to send command {ex}");
         Environment.Exit(1);
       }
     }

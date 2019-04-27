@@ -12,5 +12,6 @@ RUN dotnet publish -c Release -o out
 # Build runtime image
 FROM microsoft/dotnet:runtime
 WORKDIR /app
+COPY ./SpeedtestScheduler/appsettings.json ./
 COPY --from=build-env /app/out .
 ENTRYPOINT ["dotnet", "SpeedtestScheduler.dll"]
