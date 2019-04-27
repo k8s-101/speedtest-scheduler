@@ -1,12 +1,16 @@
+FROM microsoft/dotnet:sdk AS build-env
+WORKDIR /app
 
-FROM microsoft/dotnet:2.1
-WORKDIR /src
-COPY SpeedtestScheduler/SpeedtestScheduler.csproj SpeedtestScheduler/
-RUN dotnet restore SpeedtestScheduler/SpeedtestScheduler.csproj
+# Copy csproj and restore as distinct layers
+COPY */*.csproj ./
+RUN dotnet restore
 
-COPY . .
+# Copy everything else and build
+COPY ./SpeedtestScheduler ./
+RUN dotnet publish -c Release -o out
 
-WORKDIR /src/SpeedtestScheduler
-RUN dotnet build SpeedtestScheduler.csproj -c Release -o /app
-
-ENTRYPOINT ["dotnet", "/app/SpeedtestScheduler.dll"]
+# Build runtime image
+FROM microsoft/dotnet:runtime
+WORKDIR /app
+COPY --from=build-env /app/out .
+ENTRYPOINT ["dotnet", "SpeedtestScheduler.dll"]
