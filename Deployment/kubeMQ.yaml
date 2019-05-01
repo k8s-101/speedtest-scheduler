@@ -78,7 +78,7 @@ items:
           protocol: TCP
           targetPort: 9090
       sessionAffinity: None
-      type: NodePort
+      type: LoadBalancer
       selector:
         app: kubemq-cluster
 
@@ -107,9 +107,9 @@ items:
               image: 'kubemq/kubemq-dashboard:latest'
               env:
                 - name: SOCKET_API
-                  value: 'ws://localhost:8080/v1/stats/'
+                  value: 'ws://13.94.140.222:8080/v1/stats/'
                 - name: DASHBOARD_API
-                  value: '//localhost:8080/v1/stats/'
+                  value: '//13.94.140.222:8080/v1/stats/'
               ports:
                 - containerPort: 80
   - kind: Service
@@ -117,7 +117,7 @@ items:
     metadata:
       name: kubemq-dashboard-service
     spec:
-      type: NodePort
+      type: LoadBalancer
       selector:
         app: kubemq-dashboard
       ports:

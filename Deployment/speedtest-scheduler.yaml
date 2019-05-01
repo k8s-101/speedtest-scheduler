@@ -12,15 +12,17 @@ spec:
             app: speedtest-scheduler
         spec:
           imagePullSecrets:
-            - name: regcred
+            - name: regcred 
           containers:
           - name: speedtest-scheduler-cronjob
             image: k8s101registry.azurecr.io/speedtest-scheduler:latest
             env:
-              - name: channel
+              - name: KubeMQ_Channel
                 value: speedtest
-              - name: clinetID
+              - name: KubeMQ_ClientID
                 value: speedtest-scheduler
-              - name: kubeMQAddress
-                value: "kubemq-cluster:50000"
+              - name: KubeMQ_ServerAddress
+                value: kubemq-cluster:50000
+              - name: Logging__LogLevel__Default
+                value: Debug
           restartPolicy: Never
