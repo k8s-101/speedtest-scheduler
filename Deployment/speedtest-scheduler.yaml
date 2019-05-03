@@ -1,7 +1,7 @@
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: speedtest-scheduler-cronjob
+  name: speedtest-scheduler
 spec:
   schedule: "0 * * * *"
   jobTemplate:
@@ -14,7 +14,7 @@ spec:
           imagePullSecrets:
             - name: regcred 
           containers:
-          - name: speedtest-scheduler-cronjob
+          - name: speedtest-scheduler
             image: k8s101registry.azurecr.io/speedtest-scheduler:latest
             env:
               - name: KubeMQ_Channel
