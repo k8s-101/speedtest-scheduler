@@ -22,7 +22,7 @@ spec:
               - name: KubeMQ_ClientID
                 value: speedtest-scheduler
               - name: KubeMQ_ServerAddress
-                value: kubemq-cluster:50000
+                value: kubemq-cluster-node:50000
               - name: Logging__LogLevel__Default
                 value: Debug
           restartPolicy: Never
