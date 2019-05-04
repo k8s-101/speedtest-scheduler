@@ -15,7 +15,7 @@ spec:
             - name: regcred 
           containers:
           - name: speedtest-scheduler
-            image: k8s101registry.azurecr.io/speedtest-scheduler:latest
+            image: taeregistry.azurecr.io/speed-test-scheduler:0.0.1
             env:
               - name: KubeMQ_Channel
                 value: speedtest
