@@ -58,7 +58,7 @@ items:
   - apiVersion: v1
     kind: Service
     metadata:
-      name: kubemq-cluster
+      name: kubemq-cluster-node
     spec:
       ports:
         - name: metrics-port
@@ -81,8 +81,23 @@ items:
       type: NodePort
       selector:
         app: kubemq-cluster
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      name: kubemq-cluster
+    spec:
+      ports:
+        - name: metrics-port
+          port: 8080
+          protocol: TCP
+          targetPort: 8080
+      sessionAffinity: None
+      type: LoadBalancer
+      selector:
+        app: kubemq-cluster
 
 ---
+
 apiVersion: v1
 kind: List
 items:
@@ -107,17 +122,18 @@ items:
               image: 'kubemq/kubemq-dashboard:latest'
               env:
                 - name: SOCKET_API
-                  value: 'ws://localhost:8080/v1/stats/'
+                  value: 'ws://23.97.186.202:8080/v1/stats/'
                 - name: DASHBOARD_API
-                  value: '//localhost:8080/v1/stats/'
+                  value: '//23.97.186.202:8080/v1/stats/'
               ports:
+
                 - containerPort: 80
   - kind: Service
     apiVersion: v1
     metadata:
-      name: kubemq-dashboard-service
+      name: kubemq-dashboard
     spec:
-      type: NodePort
+      type: LoadBalancer
       selector:
         app: kubemq-dashboard
       ports:

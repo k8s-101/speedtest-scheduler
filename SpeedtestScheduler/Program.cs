@@ -19,7 +19,7 @@ namespace SpeedtestScheduler
       try
       {
         var config = new Configuration();
-        KubeMqService kubeMqActions = new KubeMqService(config);
+        KubeMqClient kubeMqActions = new KubeMqClient(config.Address, config.Channel, config.ClientID);
         kubeMqActions.SendStartLoggingEvent();
       }
       catch (System.Exception ex)

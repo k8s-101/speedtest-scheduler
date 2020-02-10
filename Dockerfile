@@ -6,12 +6,13 @@ RUN dotnet restore
 
 COPY /SpeedtestScheduler ./
 RUN dotnet publish \
-    --output /PublishedApp \
-    --configuration Release
+    --output ./PublishedApp \
+    --configuration Release \
+    --no-restore
 
 FROM mcr.microsoft.com/dotnet/core/runtime:3.1
 LABEL repository="github.com/k8s-101/speedtest-scheduler"
 WORKDIR /SpeedtestScheduler
 
-COPY --from=build-stage /PublishedApp .
+COPY --from=build-stage /SpeedtestScheduler/PublishedApp ./
 ENTRYPOINT ["dotnet", "SpeedtestScheduler.dll"]
