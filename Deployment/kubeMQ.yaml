@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: List
 items:
-  - apiVersion: apps/v1beta2
+  - apiVersion: apps/v1
     kind: StatefulSet
     metadata:
       name: kubemq-cluster
@@ -19,26 +19,26 @@ items:
           containers:
             - env:
                 - name: KUBEMQ_LOG_LEVEL
-                  value: '1'
+                  value: "1"
                 - name: METRIC_STORAGE_INTERVAL
-                  value: '60'
+                  value: "60"
                 - name: KUBEMQ_TOKEN
                   value: 60321dd4-779b-409e-a4dc-ff1525a0e4ff
                 - name: CLUSTER_ROUTES
-                  value: 'kubemq-cluster:5228'
+                  value: "kubemq-cluster:5228"
                 - name: CLUSTER_PORT
-                  value: '5228'
+                  value: "5228"
                 - name: CLUSTER_ENABLE
-                  value: 'false'
+                  value: "false"
                 - name: KUBEMQ_LOG_LEVEL
-                  value: '2'
+                  value: "2"
                 - name: GRPC_PORT
-                  value: '50000'
+                  value: "50000"
                 - name: REST_PORT
-                  value: '9090'
+                  value: "9090"
                 - name: KUBEMQ_PORT
-                  value: '8080'
-              image: 'kubemq/kubemq:latest'
+                  value: "8080"
+              image: "kubemq/kubemq:latest"
               imagePullPolicy: IfNotPresent
               name: kubemq-cluster
               ports:
@@ -97,7 +97,6 @@ items:
         app: kubemq-cluster
 
 ---
-
 apiVersion: v1
 kind: List
 items:
@@ -119,14 +118,13 @@ items:
         spec:
           containers:
             - name: kubemq-dashboard
-              image: 'kubemq/kubemq-dashboard:latest'
+              image: "kubemq/kubemq-dashboard:latest"
               env:
                 - name: SOCKET_API
-                  value: 'ws://23.97.186.202:8080/v1/stats/'
+                  value: "ws://40.114.187.230:8080/v1/stats/"
                 - name: DASHBOARD_API
-                  value: '//23.97.186.202:8080/v1/stats/'
+                  value: "//40.114.187.230:8080/v1/stats/"
               ports:
-
                 - containerPort: 80
   - kind: Service
     apiVersion: v1
